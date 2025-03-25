@@ -26,11 +26,8 @@ def index():
 
 @app.route("/signup", methods=["POST"])
 def signup():
-    
     try:
-
         data = request.get_json()
-
         if not data.get("email", None) or not data.get("password", None):
             return {"error": "Invalid data"}, 400
         
@@ -43,7 +40,6 @@ def signup():
         new_user.set_password(data["password"])
         db.add(new_user)
         db.commit()
-
         return {
             "data": new_user.toJSON(),
             "message": "success"
@@ -52,7 +48,6 @@ def signup():
     except Exception as e:
         if 'UNIQUE constraint failed' in str(e):
             return {'message': 'Email already exists'}, 400
-        
         return {'error': str(e)}, 400
     
 @app.route("/signin", methods=["POST"])
